@@ -1,0 +1,756 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ISM Lab · 정승민 교수</title>
+<meta name="description" content="Intelligent Semiconductor Materials LAB, 호서대학교 AI공과대학 반도체공학과 정승민 교수 연구실">
+<style>
+:root{
+  --navy:#06141b; --navy2:#0b2430; --ink:#0f2a33; --ink2:#3f5a64; --muted:#6f848c; --line:#e1e8eb; --soft:#f3f7f8; --bg:#fff;
+  --teal:#0f5566; --cyan:#2bb3c9; --mag:#c2185b;
+  --grad:linear-gradient(120deg,#2bb3c9 0%,#4f7cff 45%,#c2185b 100%);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.75 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Noto Sans KR",sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+img{max-width:100%}
+.wrap{max-width:1160px;margin:0 auto;padding:0 20px}
+.draft{position:fixed;left:12px;bottom:12px;z-index:60;background:#fff6dc;border:1px solid #e7c75a;color:#6a5100;font-size:12px;padding:6px 10px;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,.15)}
+.draft label{cursor:pointer;margin-left:6px}
+.chk{display:none;font-size:12.5px;background:#fff6dc;border-left:3px solid #e7c75a;padding:2px 8px;margin-top:6px;color:#6a5100;border-radius:0 4px 4px 0}
+body.review .chk{display:block}
+
+/* NAV */
+header.nav{position:fixed;inset:0 0 auto 0;z-index:50;transition:background .3s,box-shadow .3s}
+header.nav .in{max-width:1160px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:20px}
+.brand{display:flex;align-items:center;background:#fff;border-radius:10px;padding:5px 10px;flex:none}
+.brand img{height:30px;display:block}
+header.nav ul{list-style:none;margin:0 0 0 auto;padding:0;display:flex;gap:24px;font-size:14px;font-weight:500;letter-spacing:.02em;overflow-x:auto}
+header.nav ul a{text-decoration:none;color:rgba(255,255,255,.82);white-space:nowrap;transition:color .2s}
+header.nav ul a:hover{color:#fff}
+header.nav.solid{background:rgba(6,20,27,.92);backdrop-filter:blur(12px);box-shadow:0 4px 24px rgba(0,0,0,.25)}
+
+header.nav ul{min-width:0}
+.lang{flex:none;display:flex;gap:2px;background:rgba(255,255,255,.12);border-radius:20px;padding:2px;margin-left:6px}
+.lang a{padding:2px 9px;border-radius:16px;font-size:12px;font-weight:700;color:rgba(255,255,255,.75)!important}
+.lang a.on{background:#fff;color:var(--navy)!important}
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;color:#fff;overflow:hidden;background:var(--navy)}
+.hero .bg{position:absolute;inset:0;background:url(assets/hero-wafer.jpg) center/cover no-repeat;transform:scale(1.08);filter:saturate(1.05) brightness(.62);animation:kb 26s ease-in-out infinite alternate}
+@keyframes kb{to{transform:scale(1.16) translate(-2%,-1%)}}
+.hero .shade{position:absolute;inset:0;background:radial-gradient(1200px 700px at 78% 40%,rgba(43,179,201,.22),transparent 60%),radial-gradient(900px 600px at 10% 90%,rgba(194,24,91,.25),transparent 60%),linear-gradient(90deg,rgba(6,20,27,.94) 0%,rgba(6,20,27,.78) 45%,rgba(6,20,27,.45) 100%)}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;opacity:.85}
+.hero .grid{position:relative;display:block;padding:130px 20px 170px}
+.headline{display:inline-flex;flex-direction:column;max-width:100%;margin:18px 0 26px}
+.headline .who{align-self:flex-end;text-align:right;border-top:1px solid rgba(255,255,255,.25);padding-top:12px;margin-top:4px}
+.kick{display:inline-flex;align-items:center;gap:10px;font-size:12.5px;font-weight:700;letter-spacing:.22em;color:var(--cyan)}
+.kick:before{content:"";width:34px;height:2px;background:var(--grad)}
+.hero h1{font-size:clamp(26px,4.6vw,60px);line-height:1.15;margin:0 0 14px;letter-spacing:-.03em;font-weight:800;white-space:nowrap}
+.hero h1 .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .name{font-size:20px;margin:0 0 4px;color:#fff;font-weight:600}
+.hero .name small{color:rgba(255,255,255,.65);font-weight:400;margin-left:8px;font-size:16px}
+.hero .aff{color:rgba(255,255,255,.7);margin:0;font-size:15px}
+.hero p.intro{max-width:620px;color:rgba(255,255,255,.86);margin:0 0 30px;font-size:16.5px}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:40px;font-weight:600;font-size:14.5px;text-decoration:none;transition:transform .2s,box-shadow .2s}
+.btn.p{background:var(--grad);color:#fff;box-shadow:0 10px 30px rgba(79,124,255,.35)}
+.btn.g{border:1px solid rgba(255,255,255,.35);color:#fff;backdrop-filter:blur(6px)}
+.btn:hover{transform:translateY(-2px)}
+.portrait{position:relative;justify-self:center;width:min(330px,80vw)}
+.portrait:before{content:"";position:absolute;inset:-14px;border-radius:28px;background:var(--grad);filter:blur(28px);opacity:.55;animation:glow 6s ease-in-out infinite alternate}
+@keyframes glow{to{opacity:.85;filter:blur(36px)}}
+.portrait .frame{position:relative;border-radius:22px;padding:3px;background:var(--grad)}
+.portrait img{display:block;width:100%;aspect-ratio:498/612;object-fit:cover;border-radius:19px}
+.portrait .tag{position:absolute;left:-26px;bottom:28px;background:rgba(6,20,27,.85);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:10px 14px;font-size:12.5px;line-height:1.45}
+.portrait .tag b{display:block;font-size:13.5px;color:var(--cyan)}
+.stats{position:absolute;left:0;right:0;bottom:0;border-top:1px solid rgba(255,255,255,.12);background:rgba(6,20,27,.55);backdrop-filter:blur(10px)}
+.stats .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
+.stats div.s{padding:20px 10px;text-align:center;border-left:1px solid rgba(255,255,255,.1)}
+.stats div.s:first-child{border-left:0}
+.stats b{display:block;font-size:30px;font-weight:800;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1.2}
+.stats span{font-size:12.5px;color:rgba(255,255,255,.72)}
+.scrollcue{position:absolute;left:50%;bottom:100px;transform:translateX(-50%);width:22px;height:36px;border:2px solid rgba(255,255,255,.4);border-radius:12px}
+.scrollcue:after{content:"";position:absolute;left:50%;top:7px;width:3px;height:7px;margin-left:-1.5px;background:#fff;border-radius:2px;animation:cue 1.8s infinite}
+@keyframes cue{to{transform:translateY(12px);opacity:0}}
+
+/* SECTIONS */
+section.sec{padding:110px 0;position:relative}
+.eyebrow{font-size:12.5px;font-weight:700;letter-spacing:.22em;color:var(--mag);text-transform:uppercase}
+h2.title{font-size:clamp(28px,3.6vw,40px);line-height:1.25;margin:10px 0 18px;letter-spacing:-.02em}
+.lead{color:var(--ink2);max-width:780px;font-size:16.5px;margin:0 0 44px}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* bullets */
+ul.bl{list-style:none;margin:0;padding:0}
+ul.bl li{position:relative;padding-left:18px;margin:0 0 6px}
+ul.bl li:before{content:"";position:absolute;left:2px;top:.72em;width:7px;height:7px;border-radius:50%;background:var(--grad)}
+.hero ul.bl{max-width:640px;margin:0 0 30px;color:rgba(255,255,255,.88);font-size:16px}
+.rcard ul.bl{color:var(--ink2);font-size:14.6px}
+.pcard ul.bl{font-size:14.6px;color:var(--ink2);position:relative}
+.pcard.main ul.bl{color:rgba(255,255,255,.88)}
+.hcard ul.bl{font-size:14px;color:rgba(255,255,255,.75)}
+/* FACILITY */
+.fac{background:linear-gradient(135deg,#0b2430,#0f3d4c);color:#fff;overflow:hidden}
+.fac .eyebrow{color:var(--cyan)}
+.fac .lead{color:rgba(255,255,255,.78)}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.fcard{border-radius:20px;padding:30px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);position:relative;overflow:hidden;transition:transform .3s,border-color .3s}
+.fcard:hover{transform:translateY(-6px);border-color:rgba(43,179,201,.6)}
+.fcard .tagline{font-size:12.5px;font-weight:700;letter-spacing:.08em;color:var(--cyan)}
+.fcard h3{margin:8px 0 4px;font-size:22px}
+.fcard .model{font-size:14px;color:rgba(255,255,255,.65);margin-bottom:12px}
+.fcard p{margin:0;color:rgba(255,255,255,.86);font-size:15px}
+.fcard .big{position:absolute;right:-6px;bottom:-30px;font-size:120px;font-weight:900;color:rgba(255,255,255,.05);line-height:1}
+@media (max-width:980px){.fgrid{grid-template-columns:1fr}}
+/* RESEARCH v9 */
+.rlist{display:grid;gap:34px}
+.rrow{display:grid;grid-template-columns:1.12fr .88fr;gap:40px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:24px;padding:36px;position:relative;overflow:hidden}
+.rrow:nth-child(even){grid-template-columns:.88fr 1.12fr}
+.rrow:nth-child(even) .rtext{order:2}
+.rrow:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--grad)}
+.rrow .num{font-size:13px;font-weight:800;letter-spacing:.14em;color:var(--mag)}
+.rrow h3{margin:6px 0 4px;font-size:clamp(21px,2.4vw,27px);letter-spacing:-.02em;line-height:1.3}
+.rrow .sub{color:var(--teal);font-weight:600;font-size:14.5px;margin-bottom:14px}
+.rrow p{margin:0 0 12px;color:var(--ink2);font-size:15.3px;line-height:1.8}
+.kpis{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.kpis span{font-size:12.8px;font-weight:600;padding:5px 12px;border-radius:30px;background:linear-gradient(120deg,rgba(43,179,201,.12),rgba(194,24,91,.1));color:var(--ink)}
+.rfig{margin:0;position:relative}
+.rfig .imgbox{border-radius:18px;overflow:hidden;background:#fff;border:1px solid var(--line);box-shadow:0 18px 40px rgba(15,42,51,.12);cursor:zoom-in}
+.rfig img{display:block;width:100%;max-height:420px;object-fit:contain;background:#fff;transition:transform .5s}
+.rfig .imgbox:hover img{transform:scale(1.04)}
+.rfig figcaption{font-size:12.5px;color:var(--muted);margin-top:10px;line-height:1.55}
+.rfig figcaption i{font-style:italic}
+.fcard .ph{margin:-30px -30px 22px;height:230px;overflow:hidden;position:relative}
+.fcard .ph img{width:100%;height:100%;object-fit:cover;filter:saturate(.9)}
+.fcard .ph:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 55%,rgba(11,36,48,.9))}
+.fcard .credit{font-size:11.5px;color:rgba(255,255,255,.5);margin-top:14px;line-height:1.5}
+.fcard .credit a{color:rgba(255,255,255,.6)}
+@media (max-width:980px){.rrow,.rrow:nth-child(even){grid-template-columns:1fr;padding:26px}.rrow:nth-child(even) .rtext{order:0}}
+/* JOURNEY */
+.jtop{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;margin-bottom:44px}
+.jtop ul.bl{color:var(--ink2);font-size:16px}
+.jphoto{position:relative;border-radius:22px;overflow:hidden;box-shadow:0 24px 50px rgba(15,42,51,.22);aspect-ratio:4/3}
+.jphoto img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 6s ease}
+.jphoto:hover img{transform:scale(1.06)}
+.jphoto figcaption{position:absolute;left:0;right:0;bottom:0;padding:30px 18px 14px;font-size:13px;color:#fff;background:linear-gradient(transparent,rgba(6,20,27,.85))}
+.journey{background:var(--soft)}
+.tline{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.step{background:#fff;border-radius:18px;padding:24px 22px;border:1px solid var(--line);position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s}
+.step:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(15,42,51,.12)}
+.step:before{content:"";position:absolute;left:0;top:0;right:0;height:4px;background:var(--grad)}
+.step .yr{font-size:12px;font-weight:700;color:var(--teal);letter-spacing:.06em}
+.step h4{margin:6px 0 2px;font-size:17px}
+.step .org{font-size:13px;color:var(--muted);margin-bottom:10px}
+.step p{margin:0;font-size:14.2px;color:var(--ink2);line-height:1.65}
+.step.feat{grid-column:span 2;background:linear-gradient(135deg,#0b2430,#123b4a);color:#fff;border:0}
+.step.feat.now{background:linear-gradient(135deg,#5a0f2e,#1b2a5c)}
+.step.feat .yr{color:var(--cyan)}
+.step.feat.now .yr{color:#ffb3cf}
+.step.feat .org{color:rgba(255,255,255,.65)}
+.step.feat p{color:rgba(255,255,255,.86)}
+.step.feat .crest{position:absolute;right:-20px;bottom:-40px;font-size:150px;font-weight:900;color:rgba(255,255,255,.05);line-height:1}
+
+/* RESEARCH */
+.rgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:22px}
+.rcard{grid-column:span 2;border-radius:20px;padding:28px 26px;background:#fff;border:1px solid var(--line);position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s,border-color .3s}
+.rcard.w{grid-column:span 3}
+.rcard:hover{transform:translateY(-6px);box-shadow:0 22px 48px rgba(15,42,51,.12);border-color:transparent}
+.rcard:after{content:"";position:absolute;right:-70px;bottom:-90px;width:220px;height:220px;border-radius:50%;background:var(--grad);opacity:.07;transition:opacity .3s}
+.rcard:hover:after{opacity:.16}
+.ic{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(43,179,201,.14),rgba(194,24,91,.12));margin-bottom:16px}
+.ic svg{width:28px;height:28px;stroke:var(--teal);fill:none;stroke-width:1.7}
+.rcard .no{position:absolute;right:22px;top:20px;font-size:13px;font-weight:800;color:#cfdade}
+.rcard h3{margin:0 0 8px;font-size:19px;letter-spacing:-.01em}
+.rcard p{margin:0;color:var(--ink2);font-size:14.8px}
+.tags{margin-top:14px;display:flex;flex-wrap:wrap;gap:6px}
+.tags span{font-size:12px;background:var(--soft);color:var(--teal);padding:3px 10px;border-radius:20px;font-weight:500}
+
+/* HIGHLIGHTS */
+.hl{background:var(--navy);color:#fff;overflow:hidden}
+.hl .eyebrow{color:var(--cyan)}
+.hl .lead{color:rgba(255,255,255,.72)}
+.hlgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.hcard{border-radius:20px;padding:26px;background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.12);position:relative;transition:transform .3s,border-color .3s}
+.hcard:hover{transform:translateY(-6px);border-color:rgba(43,179,201,.6)}
+.hcard .j{font-size:12.5px;color:var(--cyan);font-weight:700;letter-spacing:.04em}
+.hcard h4{margin:10px 0 12px;font-size:16.5px;line-height:1.45}
+.hcard p{margin:0;font-size:14px;color:rgba(255,255,255,.72)}
+.hl .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.35}
+
+/* PROJECTS */
+.pgrid{display:grid;grid-template-columns:1.3fr 1fr;gap:22px}
+.pcard{border-radius:20px;padding:30px;border:1px solid var(--line);background:#fff;position:relative}
+.pcard.main{grid-row:span 2;background:linear-gradient(150deg,#0f5566,#0b2430);color:#fff;border:0;overflow:hidden}
+.pcard.main:after{content:"";position:absolute;right:-80px;top:-80px;width:260px;height:260px;border-radius:50%;background:var(--grad);opacity:.35;filter:blur(30px)}
+.badge{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px;background:var(--soft);color:var(--teal);position:relative}
+.pcard.main .badge{background:rgba(255,255,255,.15);color:#fff}
+.pcard .when{font-size:13px;color:var(--muted);margin-top:14px;position:relative}
+.pcard.main .when{color:rgba(255,255,255,.7)}
+.pcard h3{margin:10px 0 10px;font-size:20px;line-height:1.4;position:relative}
+.pcard p{margin:0;color:var(--ink2);font-size:14.8px;position:relative}
+.pcard.main p{color:rgba(255,255,255,.86)}
+.subh{margin:54px 0 6px;font-size:15px;color:var(--muted);font-weight:700;letter-spacing:.06em}
+.past{display:grid;grid-template-columns:repeat(2,1fr);gap:0 30px}
+.past div{padding:14px 0;border-top:1px solid var(--line);font-size:14.5px}
+.past b{display:block;font-size:15px}
+.past span{color:var(--muted);font-size:13px}
+
+/* PUBLICATIONS */
+.pubbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:24px}
+.pubbar button{border:1px solid var(--line);background:#fff;padding:7px 15px;border-radius:30px;font:inherit;font-size:13.5px;cursor:pointer;color:var(--ink2);transition:all .2s}
+.pubbar button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.pubbar input{margin-left:auto;border:1px solid var(--line);border-radius:30px;padding:8px 16px;font:inherit;font-size:14px;min-width:220px;outline:none}
+.pubbar input:focus{border-color:var(--cyan)}
+.year{display:flex;align-items:center;gap:14px;font-size:22px;font-weight:800;color:var(--teal);margin:34px 0 4px}
+.year:after{content:"";flex:1;height:1px;background:var(--line)}
+ol.pubs{list-style:none;margin:0;padding:0}
+ol.pubs li{padding:14px 0 14px 52px;border-bottom:1px solid var(--line);position:relative;transition:background .2s}
+ol.pubs li:hover{background:linear-gradient(90deg,rgba(43,179,201,.06),transparent)}
+ol.pubs li .n{position:absolute;left:4px;top:15px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;font-weight:600}
+ol.pubs li .t{font-weight:600;line-height:1.5}
+ol.pubs li .m{font-size:14px;color:var(--ink2);margin-top:2px}
+ol.pubs li .m i{font-style:italic}
+.role{display:inline-block;font-size:11px;font-weight:700;padding:1px 8px;border-radius:20px;margin-left:8px;vertical-align:1px;background:var(--soft);color:var(--muted)}
+.role.c{background:rgba(194,24,91,.1);color:var(--mag)}
+.empty{color:var(--muted);padding:20px 0}
+
+/* PATENTS / TALKS */
+.two{display:grid;grid-template-columns:1.4fr 1fr;gap:40px;margin-top:70px}
+.plist{list-style:none;margin:0;padding:0}
+.plist li{padding:14px 0;border-top:1px solid var(--line)}
+.plist li b{display:block;font-size:15px;line-height:1.5}
+.plist li span.s{font-size:13.2px;color:var(--muted)}
+.flag{display:inline-block;font-size:11px;font-weight:700;color:#fff;background:var(--teal);border-radius:4px;padding:0 6px;margin-right:4px;vertical-align:2px}
+.flag.o{background:#7a8a91}
+
+/* CV */
+.cv{background:var(--soft)}
+.cvgrid{display:grid;grid-template-columns:260px 1fr 1fr;gap:44px;align-items:start}
+.cvphoto{position:sticky;top:90px;text-align:center}
+.cvphoto img{width:100%;aspect-ratio:498/612;object-fit:cover;border-radius:20px;box-shadow:0 20px 44px rgba(15,42,51,.22);border:3px solid #fff;outline:2px solid transparent;background:var(--grad) border-box}
+.cvphoto b{display:block;margin-top:16px;font-size:19px}
+.cvphoto b small{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.cvphoto span{display:block;margin-top:8px;font-size:13.5px;color:var(--ink2)}
+.cv h3{margin:0 0 14px;font-size:19px}
+.tl{list-style:none;margin:0;padding:0;border-left:2px solid #d3dee2}
+.tl li{position:relative;padding:0 0 22px 24px}
+.tl li:before{content:"";position:absolute;left:-7px;top:7px;width:12px;height:12px;border-radius:50%;background:#fff;border:3px solid var(--cyan)}
+.tl li.now:before{background:var(--mag);border-color:var(--mag);box-shadow:0 0 0 5px rgba(194,24,91,.15)}
+.tl .d{font-size:13px;font-weight:700;color:var(--teal);font-variant-numeric:tabular-nums}
+.tl b{display:block;font-size:15.5px}
+.tl em{font-style:normal;color:var(--ink2);font-size:14px;display:block}
+
+/* ALUMNI */
+.agrid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.acard{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;text-align:center;transition:transform .3s,box-shadow .3s}
+.acard:hover{transform:translateY(-5px);box-shadow:0 16px 36px rgba(15,42,51,.1)}
+.av{width:84px;height:84px;border-radius:50%;margin:0 auto 12px;background:var(--grad);display:grid;place-items:center;color:#fff;font-size:26px;font-weight:800;overflow:hidden}
+.av img{width:100%;height:100%;object-fit:cover}
+.acard b{display:block;font-size:16px}
+.acard .deg{font-size:12.5px;color:var(--mag);font-weight:700;margin:2px 0 6px}
+.acard p{margin:0;font-size:13.5px;color:var(--ink2)}
+.acard.ph{border-style:dashed;background:var(--soft)}
+.acard.ph .av{background:#d9e3e6}
+/* GALLERY */
+.gal{background:var(--soft)}
+.gfilter{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.gfilter button{border:1px solid var(--line);background:#fff;padding:6px 14px;border-radius:30px;font:inherit;font-size:13.5px;cursor:pointer;color:var(--ink2)}
+.gfilter button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.ggrid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:200px;gap:14px}
+.gi{position:relative;border-radius:16px;overflow:hidden;cursor:zoom-in;background:#dfe7ea}
+.gi.big{grid-column:span 2;grid-row:span 2}
+.gi img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.gi:hover img{transform:scale(1.07)}
+.gi span{position:absolute;left:0;right:0;bottom:0;padding:24px 14px 10px;color:#fff;font-size:13px;background:linear-gradient(transparent,rgba(6,20,27,.8))}
+.gi.ph{cursor:default;display:grid;place-items:center;border:2px dashed #c6d3d8;background:linear-gradient(135deg,#eef4f6,#e3ecef);color:var(--muted);font-size:13.5px;text-align:center;padding:10px}
+.gi.ph svg{width:34px;height:34px;stroke:#9fb2b9;fill:none;stroke-width:1.5;display:block;margin:0 auto 6px}
+.lb{position:fixed;inset:0;z-index:80;background:rgba(3,10,14,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
+.lb[hidden]{display:none}
+.lb img{max-width:92vw;max-height:80vh;border-radius:10px}
+.lb p{color:#fff;margin:12px 0 0}
+.lb button{position:absolute;top:14px;right:20px;background:none;border:0;color:#fff;font-size:40px;cursor:pointer}
+/* CONTACT */
+footer{background:var(--navy);color:#cdd9dd;padding:90px 0 40px;position:relative;overflow:hidden}
+footer .grid{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;position:relative}
+footer h2{color:#fff;font-size:clamp(28px,3.6vw,40px);margin:10px 0 16px;letter-spacing:-.02em;line-height:1.25}
+footer .eyebrow{color:var(--cyan)}
+.cinfo{display:grid;gap:16px}
+.cinfo div{display:flex;gap:14px;align-items:flex-start;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:16px 18px}
+.cinfo svg{flex:none;width:22px;height:22px;stroke:var(--cyan);fill:none;stroke-width:1.8;margin-top:3px}
+.cinfo b{display:block;color:#fff;font-size:15px}
+.cinfo a{color:#fff;text-decoration:none;border-bottom:1px dashed rgba(255,255,255,.4)}
+.copy{margin-top:60px;padding-top:24px;border-top:1px solid rgba(255,255,255,.1);font-size:13px;color:rgba(255,255,255,.5);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+
+@media (max-width:980px){
+  .hero .grid{padding:110px 20px 180px}
+  .jtop{grid-template-columns:1fr}
+  .tline{grid-template-columns:1fr 1fr}
+  .agrid{grid-template-columns:1fr 1fr}
+  .ggrid{grid-template-columns:1fr 1fr;grid-auto-rows:160px}
+  .rgrid{grid-template-columns:1fr 1fr}
+  .rcard,.rcard.w{grid-column:span 1}
+  .hlgrid{grid-template-columns:1fr}
+  .pgrid,.two,.cvgrid,footer .grid{grid-template-columns:1fr}
+  .cvphoto{position:static;max-width:240px;margin:0 auto}
+  .pcard.main{grid-row:auto}
+}
+@media (max-width:640px){
+  .hero h1{font-size:5.2vw;letter-spacing:-.04em}
+  .headline{display:flex}
+  header.nav .in{gap:12px}
+  header.nav ul{gap:14px;font-size:13px}
+  .brand img{height:24px}
+  .stats .wrap{grid-template-columns:repeat(2,1fr);padding:0}
+  .stats div.s{padding:12px 6px}
+  .stats div.s:nth-child(3){border-left:0}
+  .stats b{font-size:24px}
+  .scrollcue{display:none}
+  .tline,.rgrid{grid-template-columns:1fr}
+  .step.feat{grid-column:auto}
+  .past{grid-template-columns:1fr}
+  .pubbar input{margin-left:0;width:100%;min-width:0}
+  section.sec{padding:80px 0}
+  ol.pubs li{padding-left:40px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<header class="nav" id="nav"><div class="in">
+  <a class="brand" href="#home" aria-label="ISM Lab 홈"><img src="assets/ism-logo.png" alt="Intelligent Semiconductor Materials LAB"></a>
+  <ul>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#facility">Facility</a></li>
+    <li><a href="#journey">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#publications">Publications</a></li>
+    <li><a href="#cv">CV</a></li>
+    <li><a href="#alumni">Alumni</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="lang"><a class="on" href="index.html" hreflang="ko" aria-current="true">KO</a><a href="en.html" hreflang="en">EN</a></div>
+</div></header>
+
+<section class="hero" id="home">
+  <div class="bg" role="img" aria-label="실리콘 웨이퍼 확대 사진"></div>
+  <div class="shade"></div>
+  <canvas id="atoms" aria-hidden="true"></canvas>
+  <div class="wrap grid">
+    <div>
+      <div class="kick">INTELLIGENT SEMICONDUCTOR MATERIALS LAB</div>
+      <div class="headline">
+        <h1>원자 한 층으로 <span class="grad">반도체의 한계를 넘다</span></h1>
+        <div class="who"><p class="name">정승민 교수<small>Seung-min Chung, Ph.D.</small></p>
+        <p class="aff">호서대학교 AI공과대학 반도체공학과 부교수</p></div>
+      </div>
+      <p class="intro">원자층 증착(ALD)으로 차세대 반도체의 박막과 계면을 원자 단위로 설계합니다. 영역선택적 SiO₂ 증착, 3D 크로스포인트 메모리 전극·선택소자, 초저유전 비정질 BN, 2D 반도체 트랜지스터 계면 제어까지, 소재 합성에서 소자 검증까지 잇는 연구를 수행합니다.</p>
+      <div class="btns">
+        <a class="btn p" href="#research">연구 분야 보기 →</a>
+        <a class="btn g" href="#publications">논문 32편</a>
+        <a class="btn g" href="#contact">연락처</a>
+      </div>
+    </div>
+  </div>
+  <div class="scrollcue" aria-hidden="true"></div>
+  <div class="stats"><div class="wrap">
+    <div class="s"><b data-n="32">32</b><span>국제 학술지 논문</span></div>
+    <div class="s"><b data-n="25">25</b><span>교신저자 논문</span></div>
+    <div class="s"><b data-n="7">7</b><span>등록 특허 (국내 4·해외 3)</span></div>
+    <div class="s"><b data-n="6" data-s="년+">6년+</b><span>삼성전자·원익 공정 개발</span></div>
+  </div></div>
+</section>
+
+<section class="sec" id="research"><div class="wrap">
+  <div class="reveal">
+    <div class="eyebrow">Research</div>
+    <h2 class="title">연구 분야</h2>
+    <p class="lead">ISM Lab은 원자층 증착(ALD)을 중심으로 차세대 반도체의 박막과 계면을 연구합니다. 아래는 2023–2026년 발표 논문을 바탕으로 정리한 다섯 가지 연구 주제와 대표 결과입니다. 그림을 누르면 크게 볼 수 있습니다.</p>
+  </div>
+  <div class="rlist">
+    <div class="rrow reveal">
+      <div class="rtext"><div class="num">01</div><h3>영역선택적 ALD와 고품질 절연막</h3><div class="sub">원하는 곳에만, 더 치밀하게 쌓는 산화막</div>
+        <p>영역선택적 증착(ASD)은 패터닝 공정을 줄이는 차세대 핵심 기술입니다. 우리는 SiO₂와 SiNₓ가 HF 처리 후 서로 다른 표면을 갖게 되는 이유를 밀도범함수이론(DFT) 계산과 XPS로 규명했습니다. SiNₓ는 식각 과정에서 표면에 SiF₂ 종이 쌓여 Si 전구체의 화학흡착을 억제하고, SiO₂는 수산기로 끝나 증착이 일어납니다. 이 원리를 이용해 HF 농도만 조절해도 증착 선택비를 높일 수 있음을 보였습니다.</p><p>NH₃ 플라즈마로 SiNₓ 표면을 Si–NH 결합으로 바꿔 선택비를 높이고, 증착 중 층마다 플라즈마 처리를 더해 선택성을 잃지 않으면서 SiO₂ 막을 치밀하게 만들었습니다. 3D NAND 터널 산화막을 겨냥한 TKDMAS·오존 함유 산화제 고온 ALD로는 700 °C에서도 자기제한 성장(2.9 Å/cycle)을 유지하고, 종횡비 24의 트렌치에서 91–93%의 단차피복을 얻었고, −1 MV/cm에서 최소 누설전류밀도 4.5×10⁻⁹ A/cm²를 확인했습니다. 이 밖에 열안정성을 높인 신규 Zr 전구체 ZrO₂, 자기정렬 이중 패터닝(SADP) 스페이서용 주석 실리콘 산화물도 연구합니다.</p>
+        <div class="kpis"><span>HF 농도로 선택비 제어</span><span>2.9 Å/cycle @ 700 °C</span><span>단차피복 91–93% (AR 24)</span><span>최소 누설전류밀도 4.5×10⁻⁹ A/cm² (−1 MV/cm)</span></div></div>
+      <figure class="rfig"><div class="imgbox"><img src="assets/fig/r1.jpg" alt="DFT 반응 경로 계산" loading="lazy"></div><figcaption>HF 처리 표면에서 Si 전구체 흡착 반응 경로(DFT). S. Lee <i>et al.</i>, <i>Appl. Surf. Sci.</i> 713 (2025) 164341, Fig. 4</figcaption></figure>
+    </div>
+    <div class="rrow reveal">
+      <div class="rtext"><div class="num">02</div><h3>3D 크로스포인트 메모리 소재</h3><div class="sub">선택소자·전극·상변화 박막을 ALD로</div>
+        <p>3D 크로스포인트 메모리는 셀마다 선택소자(OTS)와 전극을 수직으로 쌓아야 하므로, 복잡한 구조에도 균일하게 덮이는 ALD 공정이 유리합니다. 우리는 Ge-Se와 Ge-S 초주기(super-cycle) ALD로 Ge-S-Se 3원계 합금의 조성을 폭넓게 조절해 off 전류를 약 35 nA까지 낮췄습니다.</p><p>OTS 상부 전극으로 ALD 텅스텐 카보나이트라이드(WCₓNᵧ)를 개발해, 증착 온도(240–270 °C)만으로 비저항과 문턱전압을 조절했습니다. 소자는 10³ 이상의 선택비, 100 nA 미만의 off 전류, 85 °C 동작과 10⁷회 이상의 스위칭 내구성을 보였습니다. 상변화 소재 Sb₂Te₃는 SiO₂ 위에서는 비정질로 시작해 10 nm 이후 다결정으로, W 위에서는 처음부터 층상 구조로 자란다는 사실을 나노 수준에서 밝혔습니다.</p>
+        <div class="kpis"><span>off 전류 ~35 nA (Ge-S-Se)</span><span>선택비 >10³</span><span>내구성 >10⁷ cycles</span><span>85 °C 안정 동작</span></div></div>
+      <figure class="rfig"><div class="imgbox"><img src="assets/fig/r2.jpg" alt="Sb2Te3 결정 구조와 라만 스펙트럼" loading="lazy"></div><figcaption>Sb₂Te₃ 결정 구조와 두께별 라만 스펙트럼. J. Seo <i>et al.</i>, <i>Surf. Interfaces</i> 78 (2025) 108082, Fig. 2</figcaption></figure>
+    </div>
+    <div class="rrow reveal">
+      <div class="rtext"><div class="num">03</div><h3>2D 반도체 소자 계면</h3><div class="sub">원자층 두께 채널을 위한 계면 공학</div>
+        <p>MoS₂ 같은 2D 반도체는 실리콘 이후의 채널 소재로 주목받지만, 표면에 산화막을 고르게 올리기 어렵고 금속과의 접촉저항이 큽니다. 우리는 TMA·아세트산·H₂O를 차례로 쓰는 ABC형 ALD로 MoS₂의 산화를 억제하면서 탄소 불순물을 줄인 Al₂O₃ 게이트 절연막을 만들어, on/off 비 10⁷ 이상의 트랜지스터를 구현했습니다.</p><p>접촉 문제는 두 방향으로 풉니다. 전구체 주입 압력을 조절해 ALD Al₂O₃ 삽입층의 균일도를 높이면 막 두께를 바꾸지 않고도 접촉저항이 크게 줄어든다는 것을 처음 확인했고, ALD로 반금속 TiS₂를 올린 반데르발스 접합으로 쇼트키 장벽을 8.54 meV까지 낮췄습니다. 웨이퍼 규모 WSe₂ 위에 ALD ZnO를 쌓은 2D–3D 하이브리드 p–n 다이오드도 개발했습니다.</p>
+        <div class="kpis"><span>on/off >10⁷</span><span>쇼트키 장벽 8.54 meV</span><span>정류비 ~10³ (WSe₂/ZnO)</span></div></div>
+      <figure class="rfig"><div class="imgbox"><img src="assets/fig/r3.jpg" alt="Al2O3 ALD 표면 반응 모식도" loading="lazy"></div><figcaption>아세트산 기반 ALD의 표면 반응 모식도. S. H. Min <i>et al.</i>, <i>Surf. Interfaces</i> 98 (2026) 110643, Fig. 2</figcaption></figure>
+    </div>
+    <div class="rrow reveal">
+      <div class="rtext"><div class="num">04</div><h3>저유전·도핑 공정</h3><div class="sub">배선 지연과 초미세 접합을 위한 새 공정</div>
+        <p>소자 미세화의 걸림돌인 RC 지연을 줄이려면 유전율 2 미만의 안정한 절연막이 필요합니다. 우리는 열 ALD 사이클마다 NH₃ 플라즈마 처리와 진공 이완 단계를 더한 플라즈마 이완 보조 ALD(PRA ALD)로 비정질 BN을 합성했습니다. 막 밀도는 2.17 g/cm³로 높아지면서도 비정질 구조를 유지해 1 MHz에서 유전율 약 1.4를 보였고, 90일 동안 대기에 두어도 두께가 거의 변하지 않았습니다. TEM으로 확인한 결과 고종횡비 트렌치에서도 균일하게 덮였습니다.</p><p>또한 ALD B₂O₃ 도펀트 층과 비용융 레이저 어닐링을 결합해, 250–300 mJ/cm² 조건에서 깊이 20 nm 미만의 초박형 p⁺ 접합을 매끈한 표면과 함께 형성했습니다. 이 접합으로 만든 p⁺/n 다이오드는 0.04 V에서 미분 이상계수 1.01·1.03을 보였습니다.</p>
+        <div class="kpis"><span>유전율 ~1.4 @ 1 MHz</span><span>막 밀도 2.17 g/cm³</span><span>절연파괴 ~10 MV/cm</span><span>접합 깊이 <20 nm</span></div></div>
+      <figure class="rfig"><div class="imgbox"><img src="assets/fig/r4.jpg" alt="PRA ALD 공정과 트렌치 단면 TEM" loading="lazy"></div><figcaption>PRA ALD 공정 모식도와 트렌치 단면 TEM·EDS 매핑. I. Sohn <i>et al.</i>, <i>Mater. Sci. Semicond. Process.</i> 215 (2026) 111027, Fig. 3</figcaption></figure>
+    </div>
+    <div class="rrow reveal">
+      <div class="rtext"><div class="num">05</div><h3>센서·촉매·첨단 패키징</h3><div class="sub">소재 기술을 응용과 패키징으로</div>
+        <p>2D 소재 가스센서의 고질적 문제인 느린 회복을 해결하기 위해, ALD Al₂O₃가 MoS₂·WS₂의 결함과 결정립계에만 선택적으로 자라도록 해 결함을 막았습니다. 그 결과 상온에서 10 ppm NO₂에 400% 반응하면서 회복률이 74%에서 96%로 올랐습니다. 센서 데이터를 머신러닝으로 분석해, NO₂·NH₃와 그 혼합가스를 2단계 분류 모델로 90% 이상, 별도의 잡음 제거 오토인코더(SDAE) 모델로는 잡음 환경에서도 95% 이상 정확하게 구분했습니다.</p><p>에너지 분야에서는 흑연 위에 수직으로 자란 ALD MoS₂ 나노시트에 ALD Pt를 입혀 수소발생 촉매 성능을 높였고, ALD RuO₂의 결정성과 두께를 조절해 산소발생 촉매를 최적화했습니다. 밴드갭을 0.52–1.39 eV로 조절한 RuS₂ₓSe₂₋₂ₓ 근적외선 광검출기도 개발했습니다. 최근에는 유한요소해석(FEA)으로 열응력 저감 효과를 평가한 유리기판 관통 비아(TGV)용 ALD SiO₂ 패시베이션과 PCB 초미세 홀 가공으로 첨단 패키징 연구를 넓히고 있습니다.</p>
+        <div class="kpis"><span>NO₂ 반응 400% @ 10 ppm</span><span>회복률 74→96%</span><span>혼합가스 분류 >95%</span><span>밴드갭 0.52–1.39 eV</span></div></div>
+      <figure class="rfig"><div class="imgbox"><img src="assets/fig/r5.jpg" alt="2D MoS2 TEM 이미지" loading="lazy"></div><figcaption>2D MoS₂의 저배율·고분해능 TEM 이미지. I. Sohn <i>et al.</i>, <i>Appl. Surf. Sci.</i> 646 (2024) 158906, Fig. 1(a,b)</figcaption></figure>
+    </div>
+  </div>
+</div></section>
+
+<section class="sec fac" id="facility"><div class="wrap">
+  <div class="reveal">
+    <div class="eyebrow">Analysis Facility</div>
+    <h2 class="title">분석 장비</h2>
+    <p class="lead">ISM Lab은 투과전자현미경(TEM)과 집속이온빔-주사전자현미경(FIB-SEM)을 직접 관리하며, 시료 가공부터 구조·조성 분석까지 연구실 안에서 자체적으로 진행합니다. 덕분에 박막과 계면 연구의 결과를 빠르게 확인하고 다음 공정에 바로 반영할 수 있습니다.</p>
+  </div>
+  <div class="fgrid">
+    <div class="fcard reveal"><span class="big">TEM</span>
+      <div class="ph"><img src="assets/eq-tem.jpg" alt="투과전자현미경 참고 사진" loading="lazy"></div>
+      <div class="tagline">FIELD-EMISSION TEM + EDS</div>
+      <h3>투과전자현미경</h3>
+      <div class="model">JEOL JEM-2100F · Oxford INCA EDS</div>
+      <p>원자층 증착 박막의 단면과 계면, 결정 구조를 고분해능으로 관찰하고, EDS로 원소 조성과 분포를 분석합니다.</p>
+      <div class="credit">참고 사진 — 연구실 보유 장비의 실제 사진이 아닙니다. <a href="https://commons.wikimedia.org/wiki/File:Stem1.JPG">JEOL 200 kV STEM</a> · Materialscientist · <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a> · Wikimedia Commons</div>
+    </div>
+    <div class="fcard reveal"><span class="big">FIB</span>
+      <div class="ph"><img src="assets/eq-fibsem.jpg" alt="TESCAN 전자현미경 참고 사진" loading="lazy"></div>
+      <div class="tagline">DUAL-BEAM FIB-SEM</div>
+      <h3>집속이온빔-주사전자현미경</h3>
+      <div class="model">TESCAN FIB-SEM · Omniprobe AutoProbe</div>
+      <p>원하는 위치의 단면을 정밀하게 가공해 관찰하고, 미세조작기로 TEM 분석용 시료를 직접 제작합니다.</p>
+      <div class="credit">참고 사진 — 연구실 보유 장비의 실제 사진이 아닙니다. <a href="https://commons.wikimedia.org/wiki/File:FZU_SEM_Tescan_PJachimova_1.jpg">TESCAN 전자현미경</a> · Akademie věd České republiky · <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a> · Wikimedia Commons</div>
+    </div>
+  </div>
+</div></section>
+
+<section class="sec journey" id="journey"><div class="wrap">
+  <div class="reveal">
+    <div class="eyebrow">About · Journey</div>
+    <h2 class="title">하버드에서 반도체 현장까지,<br>박막 공정 한 길</h2>
+    <p class="lead">도호쿠대학교에서 구리 배선용 자가형성 배리어 연구로 박사학위를 받고, 하버드대학교에서 CVD 기반 차세대 배선 기술을 연구했습니다. 이후 삼성전자와 원익머트리얼즈에서 DRAM·로직 공정과 전구체를 개발했고, 연세대학교에서 ALD 소재 국책과제를 이끌었습니다. 지금은 호서대학교에서 ISM Lab을 운영하고 있습니다.</p>
+  </div>
+
+  <div class="tline">
+    <div class="step feat reveal"><span class="crest">H</span>
+      <div class="yr">2010 – 2011 · POSTDOCTORAL RESEARCHER</div>
+      <h4>Harvard University</h4>
+      <div class="org">Division of Chemistry &amp; Chemical Biology · Gordon Lab.</div>
+      <p>폭 20 nm 미만, 종횡비 7:1 이상의 미세 트렌치를 Cu-Mn 합금 CVD로 채우고, MnN 배리어·접착층과 Mn 자가형성 배리어로 Cu/절연막 계면을 강화하는 차세대 구리 배선 공정을 연구했습니다. 태양전지용 CVD 구리 배선과 MnO 패시베이션도 함께 개발했습니다.</p>
+    </div>
+    <div class="step reveal">
+      <div class="yr">2007 – 2010 · PH.D.</div>
+      <h4>Tohoku University</h4>
+      <div class="org">Materials Science · Koike Lab.</div>
+      <p>Cu-Mn 합금 자가형성 배리어의 구조·전기적 특성과 저유전(SiOC) 배선 신뢰성 연구.</p>
+    </div>
+    <div class="step reveal">
+      <div class="yr">2011 – 2016 · SENIOR ENGINEER</div>
+      <h4>Samsung Electronics</h4>
+      <div class="org">제조기술센터 반도체설비팀</div>
+      <p>DRAM 커패시터용 High-k(ZAZ) 열 ALD, PEALD SiN 원격 플라즈마 시스템, PECVD 초저유전(SiOC) 공정 개발.</p>
+    </div>
+    <div class="step reveal">
+      <div class="yr">2018 – 2020 · TEAM LEADER</div>
+      <h4>Wonik Materials</h4>
+      <div class="org">박막증착팀장 · 책임연구원</div>
+      <p>ASD용 Ru, 로직용 Co·TiN, High-k(ZrOx·HfOx), SiO₂ 전구체의 ALD/CVD 공정 평가와 개발.</p>
+    </div>
+    <div class="step reveal">
+      <div class="yr">2020 – 2024 · RESEARCH PROFESSOR</div>
+      <h4>Yonsei University</h4>
+      <div class="org">전기전자공학부 · Nanodevice Lab.</div>
+      <p>소재부품장비 혁신LAB·소재부품기술개발 국책과제 실무 총괄, 2D 가스센서 전자코 창의도전과제 책임. 삼성전자·SK하이닉스 등과 산학과제 수행.</p>
+    </div>
+    <div class="step feat now reveal"><span class="crest">ISM</span>
+      <div class="yr">2025 – PRESENT · ASSOCIATE PROFESSOR</div>
+      <h4>Hoseo University · ISM Lab</h4>
+      <div class="org">AI공과대학 반도체공학과</div>
+      <p>Intelligent Semiconductor Materials LAB을 이끌며 ALD 박막·2D 소재·첨단 패키징 공정을 연구합니다. 차세대디스플레이 혁신융합사업단 부단장을 맡고 있으며, 중기부 R&amp;D 과제의 연구책임자로 PCB 초미세 홀 가공·검사 장비를 개발하고 있습니다. TEM과 FIB-SEM을 직접 관리하며 자체 분석을 수행합니다.</p>
+    </div>
+  </div>
+</div></section>
+
+
+
+
+
+<section class="sec hl" id="highlights">
+  <div class="orb" style="width:420px;height:420px;background:#2bb3c9;left:-120px;top:-80px"></div>
+  <div class="orb" style="width:380px;height:380px;background:#c2185b;right:-100px;bottom:-120px"></div>
+  <div class="wrap" style="position:relative">
+    <div class="reveal">
+      <div class="eyebrow">Recent Highlights</div>
+      <h2 class="title">최근 대표 성과</h2>
+      <p class="lead">2025–2026년 교신저자로 발표한 논문 가운데 일부입니다.</p>
+    </div>
+    <div class="hlgrid">
+      <div class="hcard reveal"><div class="j">Applied Surface Science · 2025</div>
+        <h4>Elucidating the surface chemistry of SiO₂ and SiNₓ in hydrofluoric acid for area-selective atomic layer deposition of SiO₂</h4>
+        <p>HF 처리 후 SiO₂와 SiNₓ 표면의 화학적 차이를 밝혀 영역선택적 SiO₂ ALD에 활용</p></div>
+      <div class="hcard reveal"><div class="j">J. Alloys Compd. · 2025</div>
+        <h4>Resistivity engineering of atomic layer deposited tungsten carbonitride for three-dimensional cross-point memory electrodes applications</h4>
+        <p>3D 크로스포인트 메모리 전극용 ALD WCN의 비저항 제어</p></div>
+      <div class="hcard reveal"><div class="j">Mater. Sci. Semicond. Process. · 2026</div>
+        <h4>Plasma-relaxation-assisted atomic layer deposition of ultralow-k amorphous boron nitride with enhanced ambient stability</h4>
+        <p>대기 안정성을 높인 초저유전 비정질 BN 박막</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="projects"><div class="wrap">
+  <div class="reveal">
+    <div class="eyebrow">Projects</div>
+    <h2 class="title">진행 중인 과제</h2>
+  </div>
+  <div class="pgrid">
+    <div class="pcard main reveal">
+      <span class="badge">연구책임자 · 중소벤처기업부 R&amp;D</span>
+      <div class="when">2026.04 – 2026.12 · 지역혁신선도기업육성</div>
+      <h3>PCB 초미세 홀 가공 Drilling 및 결함검사 Vision Inspection 장비</h3>
+      <p>PCB 초미세 홀 드릴링 공정과 비전 기반 결함검사 기술을 개발합니다.</p>
+    </div>
+    <div class="pcard reveal">
+      <span class="badge">부단장</span>
+      <h3>차세대디스플레이 혁신융합사업단</h3>
+      <p>디스플레이 분야 혁신융합 교육과 Tohoku University 연계 프로그램을 운영합니다.</p>
+    </div>
+    <div class="pcard reveal">
+      <span class="badge">참여교수</span>
+      <h3>유기발광디스플레이 전문인력양성사업</h3>
+      <p>참여교수로 OLED 분야 전문 인력 양성 사업에 참여하고 있습니다.</p>
+    </div>
+  </div>
+  <div class="subh reveal">이전 주요 과제 · 연세대학교</div>
+  <div class="past reveal">
+    <div><b>소재부품장비 혁신LAB 기술개발사업</b><span>~2023.02 · 실무 총괄 · 신규 전구체·캐니스터 ALD 공정</span></div>
+    <div><b>소재부품기술개발사업</b><span>~2021.12 · 실무 총괄 · 신규 ALD 공정</span></div>
+    <div><b>핵심소재 과제</b><span>TMDC 공정 개발 담당</span></div>
+    <div><b>창의도전 과제</b><span>~2023.05 · 책임 · 전자코용 2D 가스센서</span></div>
+  </div>
+</div></section>
+
+<section class="sec" id="publications" style="background:linear-gradient(180deg,#fff,var(--soft))"><div class="wrap">
+  <div class="reveal">
+    <div class="eyebrow">Publications</div>
+    <h2 class="title">논문</h2>
+    <p class="lead">국제 학술지 논문 32편 · 교신저자 25편</p>
+  </div>
+  <div class="pubbar" role="group" aria-label="논문 필터">
+    <button data-f="all" aria-pressed="true">전체</button>
+    <button data-f="c" aria-pressed="false">교신저자</button>
+    <button data-f="ald" aria-pressed="false">ALD 공정</button>
+    <button data-f="mem" aria-pressed="false">메모리</button>
+    <button data-f="2d" aria-pressed="false">2D 소재</button>
+    <button data-f="sen" aria-pressed="false">센서·에너지</button>
+    <input id="q" type="search" placeholder="제목·저널 검색" aria-label="논문 검색">
+  </div>
+  <div id="publist"></div>
+
+  <div class="two">
+    <div class="reveal">
+      <div class="eyebrow">Patents</div>
+      <h2 class="title" style="font-size:28px">특허</h2>
+      <ul class="plist">
+        <li><b><span class="flag">KR</span>이차원 전이금속 칼코겐 화합물 기반 가스 센서 및 이의 제조 방법</b><span class="s">등록 10-2852701 · 2025.08.26</span></li>
+        <li><b><span class="flag">KR</span><span class="flag">JP</span><span class="flag">TW</span>유기 금속 화합물을 이용하여 박막을 형성하는 방법 및 이로부터 제조된 박막</b><span class="s">KR 10-2661498 (2024.04.23) · JP 7682476 (2025.05.16) · TW I822465 (2023.11.11) · 미국·중국 출원</span></li>
+        <li><b><span class="flag">KR</span>선택적 원자층 증착법을 이용한 회복 특성이 개선된 이차원 전이금속 칼코겐 화합물 기반의 가스 센서</b><span class="s">등록 10-2652740 · 2024.03.26</span></li>
+        <li><b><span class="flag">TW</span>귀금속 칼코게나이드 박막을 구비하는 가스 센서 소자 및 가스 센서</b><span class="s">TW I884388 (2025.05.21) · 일본·PCT 출원</span></li>
+        <li><b><span class="flag">KR</span>사이클로펜타디엔이 도입된 유기금속 화합물 전구체를 이용한 유전체 필름의 형성 방법 및 그의 반도체 제조에서의 용도</b><span class="s">등록 10-2259874 · 2021.05.27</span></li>
+        <li><b><span class="flag o">출원</span>트랜지스터·표시 장치, 비정질 질화붕소막 반도체 소자, 금속 칼코게나이드 메모리 소자, Ru 칼코게나이드 반도체 재료</b><span class="s">국내·미국·중국·일본 출원</span></li>
+      </ul>
+    </div>
+    <div class="reveal">
+      <div class="eyebrow">Presentations</div>
+      <h2 class="title" style="font-size:28px">학회 발표</h2>
+      <ul class="plist">
+        <li><b>Numerical Simulation on SiO₂ Passivation Layers to Mitigate Thermal Stress and Inhibit Crack Penetration in Through-Glass Vias (TGVs)</b><span class="s">ISMP 2026 · 부산 · 포스터 · 교신저자</span></li>
+        <li><b>21st International Conference on Atomic Layer Deposition (AVS)</b><span class="s">2021.06 · 구두 발표 2건</span></li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<section class="sec cv" id="cv"><div class="wrap">
+  <div class="reveal">
+    <div class="eyebrow">Curriculum Vitae</div>
+    <h2 class="title">약력</h2>
+  </div>
+  <div class="cvgrid">
+    <div class="cvphoto reveal"><img src="assets/profile.jpg" alt="정승민 교수"><b>정승민 <small>Seung-min Chung, Ph.D.</small></b><span>호서대학교 AI공과대학 반도체공학과 부교수<br>Intelligent Semiconductor Materials LAB</span></div>
+    <div class="reveal"><h3>경력</h3><ul class="tl">
+      <li class="now"><span class="d">2025.03 –</span><b>호서대학교 AI공과대학 반도체공학과 부교수</b><em>ISM Lab · 차세대디스플레이 혁신융합사업단 부단장</em></li>
+      <li><span class="d">2020.07 – 2024.02</span><b>연세대학교 전기전자공학부 연구교수</b><em>Nanodevice Lab. · 2D 소재·ALD 국책과제</em></li>
+      <li><span class="d">2018.10 – 2020.06</span><b>원익머트리얼즈 박막증착팀장 (책임연구원)</b><em>ALD/CVD 전구체·공정 개발</em></li>
+      <li><span class="d">2011.10 – 2016.04</span><b>삼성전자 책임연구원</b><em>제조기술센터 반도체설비팀 · ALD/PECVD 공정</em></li>
+      <li><span class="d">2010.10 – 2011.09</span><b>Harvard University 박사후연구원</b><em>Division of Chemistry &amp; Chemical Biology</em></li>
+    </ul></div>
+    <div class="reveal"><h3>학력</h3><ul class="tl">
+      <li><span class="d">2010</span><b>Ph.D., Tohoku University</b><em>Materials Science · Intelligent Device Materials<br>Structural and Electrical Characteristics of a Self-Forming Barrier Layer with Cu-Mn Alloys</em></li>
+      <li><span class="d">2006</span><b>M.S., 한양대학교 재료공학</b><em>마이크로 전자 패키징<br>NCA와 In, Sn 솔더 범프를 이용한 COG 접합부의 신뢰성 평가</em></li>
+      <li><span class="d">2003</span><b>B.S., 수원대학교 전기전자공학부</b><em>전자재료공학</em></li>
+    </ul>
+    <h3 style="margin-top:10px">강의 분야</h3>
+    <p style="margin:0;color:var(--ink2);font-size:15px">반도체 공정, 전자 패키징, 전자세라믹·소자, 재료과학</p></div>
+  </div>
+</div></section>
+
+<section class="sec" id="alumni"><div class="wrap">
+  <div class="reveal">
+    <div class="eyebrow">Members · Alumni</div>
+    <h2 class="title">구성원과 졸업생</h2>
+    <p class="lead">ISM Lab에서 함께 연구한 사람들입니다. 졸업생은 학위와 졸업 연도, 학위논문, 현재 진로 순으로 소개합니다.</p>
+  </div>
+  <div class="agrid" id="alist"></div>
+</div></section>
+
+<section class="sec gal" id="gallery"><div class="wrap">
+  <div class="reveal">
+    <div class="eyebrow">Gallery</div>
+    <h2 class="title">사진첩</h2>
+    <p class="lead">학회 발표, 연구실 행사, 실험 현장의 순간을 모았습니다.</p>
+  </div>
+  <div class="gfilter" id="gf"></div>
+  <div class="ggrid" id="glist"></div>
+</div></section>
+<div class="lb" id="lb" hidden><button aria-label="닫기">×</button><img alt=""><p></p></div>
+
+<footer id="contact"><div class="wrap">
+  <div class="grid">
+    <div>
+      <div class="eyebrow">Contact</div>
+      <h2>함께 연구할 학생과<br>산학 파트너를 기다립니다</h2>
+      <p style="color:rgba(255,255,255,.7);max-width:480px">ALD 공정, 반도체 소재, 첨단 패키징 연구에 관심 있는 학부연구생·대학원생과 기업·연구기관의 공동연구를 환영합니다.</p>
+    </div>
+    <div class="cinfo">
+      <div><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><span><b>Email</b><a href="mailto:sm.chung@hoseo.edu">sm.chung@hoseo.edu</a></span></div>
+      <div><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span><b>Office · ISM Lab</b>2공대 506호<br>충청남도 아산시 배방읍 호서로79번길 20, 호서대학교 아산캠퍼스</span></div>
+    </div>
+  </div>
+  <div class="copy"><span>© Intelligent Semiconductor Materials LAB, Hoseo University · 배경 사진: Laura Ockel / Unsplash</span><span>Dept. of Semiconductor Engineering, College of AI Engineering</span></div>
+</div></footer>
+
+<script>
+/* [year, title, journal, volume, corresponding(1/0), tags] — 원문 첫 페이지 대조 */
+const P=[
+[2026,"High-temperature atomic layer deposition of thermally robust, device-quality SiO₂ using tetrakis(dimethylamino)silane and ozone","Ceramics International","in press",1,"ald"],
+[2026,"Regulating surface reaction pathways in Al₂O₃ atomic layer deposition through sequential oxidant exposure for MoS₂ transistors","Surfaces and Interfaces","98, 110643",1,"ald 2d"],
+[2026,"Ultra-shallow Si junction formation by non-melt laser annealing of ALD B₂O₃ films","Journal of Alloys and Compounds","1080, 190615",1,"ald"],
+[2026,"Plasma-relaxation-assisted atomic layer deposition of ultralow-k amorphous boron nitride with enhanced ambient stability","Materials Science in Semiconductor Processing","215, 111027",1,"ald"],
+[2026,"Noble-metal-functionalized MoS₂ catalysts prepared by atomic layer deposition for hydrogen evolution reaction","Electrochimica Acta","554, 148358",1,"ald 2d sen"],
+[2026,"Growth characteristics and electrical properties of atomic-layer-deposited ZrO₂ on several substrates using novel Zr precursors","Surfaces and Interfaces","80, 108376",1,"ald"],
+[2025,"Resistivity engineering of atomic layer deposited tungsten carbonitride for three-dimensional cross-point memory electrodes applications","Journal of Alloys and Compounds","1048, 185292",1,"ald mem"],
+[2025,"2D–3D hybrid p-WSe₂/n-ZnO heterojunction diodes via self-limiting layer synthesis and atomic layer deposition","Surfaces and Interfaces","78, 108144",1,"ald 2d"],
+[2025,"Unveiling substrate effects: Nanoscale insights into Sb₂Te₃ thin films grown by atomic layer deposition","Surfaces and Interfaces","78, 108082",1,"ald mem"],
+[2025,"Nonconventional growth characteristics of tin silicon oxide grown by thermal atomic layer deposition using H₂O as oxidant","Journal of Chemical Physics","163, 074705",1,"ald"],
+[2025,"Elucidating the surface chemistry of SiO₂ and SiNₓ in hydrofluoric acid for area-selective atomic layer deposition of SiO₂","Applied Surface Science","713, 164341",1,"ald"],
+[2025,"Layer-by-layer NH₃ plasma treatment for area-selective atomic layer deposition of high-quality SiO₂ thin films","Journal of Chemical Physics","162, 124203",1,"ald"],
+[2025,"Near-infrared self-powered RuS₂ₓSe₂₋₂ₓ alloy photodetector via chemical vapor deposition RuSe₂ and post-sulfurization process","Rare Metals","",1,"2d sen"],
+[2025,"Selective denoising autoencoder for classification of noisy gas mixtures using 2D transition metal dichalcogenides","Talanta","283, 127129",0,"2d sen"],
+[2024,"A Review—Functionalization and hybridization of two-dimensional transition metal dichalcogenides for biosensing applications","IEEE Nanotechnology Magazine","",0,"2d sen"],
+[2024,"Reducing contact resistance of MoS₂-based field effect transistors through uniform interlayer insertion via atomic layer deposition","Journal of Chemical Physics","160, 104701",1,"ald 2d"],
+[2024,"Investigation on contact properties of 2D van der Waals semimetallic 1T-TiS₂/MoS₂ heterojunctions","ACS Applied Materials & Interfaces","",1,"2d"],
+[2024,"Atomic layer deposition of Pt nanoparticles using dimethyl (N,N-dimethyl-3-butene-1-amine-N) platinum and H₂ reactant and its application to 2D WS₂ photodetectors","Journal of Vacuum Science & Technology A","42, 012405",1,"ald 2d sen"],
+[2024,"Atomic layer deposited RuO₂ with controlled crystallinity and thickness for oxygen evolution reaction catalysis","Vacuum","220, 112843",1,"ald sen"],
+[2024,"Investigation of the hydrophilic nature and surface energy changes of HfO₂ thin films prepared by atomic layer deposition","Vacuum","219, 112756",1,"ald"],
+[2024,"Selective passivation of 2D TMD surface defects by atomic layer deposited Al₂O₃ to enhance recovery properties of gas sensor","Applied Surface Science","646, 158906",1,"ald 2d sen"],
+[2024,"Investigation of direct surface charge transfer of glutamic acids on 2D monolayer molybdenum disulfide and its sensing properties","Applied Surface Science","642, 158566",1,"2d sen"],
+[2023,"Recent advances in functionalization and hybridization of two-dimensional transition metal dichalcogenide for gas sensor","Advanced Engineering Materials","2301063 · Review",1,"2d sen"],
+[2023,"Thermal atomic layer deposition of ternary Ge-S-Se alloy for advanced ovonic threshold switch selectors in three-dimensional cross-point memory array","Journal of Alloys and Compounds","968, 172284",1,"ald mem"],
+[2023,"Defect-selective functionalization of 2D-WS₂ nanofilms with Pt nanoparticles for enhanced room-temperature NO₂ gas sensing","ACS Applied Nano Materials","6, 19327",1,"ald 2d sen"],
+[2023,"Amorphous Ge-Se-S chalcogenide alloys via post plasma sulfurization of atomic layer deposition GeSe for ovonic threshold switch applications","Journal of Alloys and Compounds","947, 169514",0,"ald mem"],
+[2023,"Quantitative two-stage classification of gas mixtures using 2-D TMDC and PGM chalcogenides","IEEE Sensors Journal","23, 8154",1,"2d sen"],
+[2023,"Efficient solar fuel production enabled by an iodide oxidation reaction on atomic layer deposited MoS₂","Carbon Energy","e366",0,"ald 2d sen"],
+[2022,"Development of RuS₂ for near-infrared photodetector by atomic layer deposition and post-sulfurization","Rare Metals","41, 3086",1,"ald 2d sen"],
+[2021,"Atomic-layer-deposition-based 2D transition metal chalcogenides: synthesis, modulation, and applications","Advanced Materials","33, 2005907 · Review",0,"ald 2d"],
+[2021,"Reaction mechanisms of non-hydrolytic atomic layer deposition of Al₂O₃ with a series of alcohol oxidants","Journal of Physical Chemistry C","125, 18151",0,"ald"],
+[2021,"PE-ALD of Ge₁₋ₓSₓ amorphous chalcogenide alloys for OTS applications","Journal of Materials Chemistry C","9, 6006",0,"ald mem"]
+];
+const box=document.getElementById('publist'),q=document.getElementById('q');let F='all';
+function render(){
+  const s=q.value.trim().toLowerCase();box.innerHTML='';let y=null,ol=null,shown=0;
+  P.forEach((p,i)=>{
+    const okF=F==='all'||(F==='c'?p[4]===1:p[5].split(' ').includes(F));
+    const okQ=!s||(p[1]+' '+p[2]).toLowerCase().includes(s);
+    if(!okF||!okQ)return;shown++;
+    if(p[0]!==y){y=p[0];const h=document.createElement('div');h.className='year';h.textContent=y;box.appendChild(h);ol=document.createElement('ol');ol.className='pubs';box.appendChild(ol);}
+    const li=document.createElement('li');
+    li.innerHTML=`<span class="n">[${P.length-i}]</span><div class="t"></div><div class="m"><i></i><span class="v"></span>, ${p[0]}<span class="role ${p[4]?'c':''}">${p[4]?'교신저자':'공동저자'}</span></div>`;
+    li.querySelector('.t').textContent=p[1];li.querySelector('i').textContent=p[2];li.querySelector('.v').textContent=p[3]?' '+p[3]:'';
+    ol.appendChild(li);
+  });
+  if(!shown)box.innerHTML='<div class="empty">조건에 맞는 논문이 없습니다.</div>';
+}
+render();
+document.querySelectorAll('.pubbar button').forEach(b=>b.onclick=()=>{F=b.dataset.f;document.querySelectorAll('.pubbar button').forEach(x=>x.setAttribute('aria-pressed',x===b));render();});
+q.oninput=render;
+
+const nav=document.getElementById('nav');const onS=()=>nav.classList.toggle('solid',scrollY>40);addEventListener('scroll',onS,{passive:true});onS();
+
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+if('IntersectionObserver' in window&&!reduce){
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+}else document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));
+
+if(!reduce)document.querySelectorAll('.stats b[data-n]').forEach(b=>{const n=+b.dataset.n,suf=b.dataset.s||'';let t0=null;
+  const f=t=>{if(!t0)t0=t;const k=Math.min(1,(t-t0)/1400);b.textContent=Math.round(n*(1-Math.pow(1-k,3)))+suf;if(k<1)requestAnimationFrame(f);};b.textContent='0'+suf;setTimeout(()=>requestAnimationFrame(f),400);});
+
+/* ===== 구성원·졸업생: 아래 배열에 추가하면 카드가 생깁니다 =====
+   {name:"홍길동", degree:"M.S. 2027", thesis:"학위논문 제목", now:"현재 진로", photo:"assets/alumni/hong.jpg"} */
+const ALUMNI=[];
+/* ===== 사진첩: {src:"assets/gallery/파일.jpg", cap:"설명", cat:"학회|연구실|행사", big:true} ===== */
+const PHOTOS=[];
+(function(){
+  const al=document.getElementById('alist');
+  if(!ALUMNI.length){al.innerHTML=Array.from({length:4},()=>'<div class="acard ph"><div class="av">?</div><b>졸업생 준비 중</b><div class="deg">Degree · Year</div><p>학위논문 · 현재 진로</p></div>').join('');}
+  else ALUMNI.forEach(a=>{const d=document.createElement('div');d.className='acard';
+    d.innerHTML='<div class="av"></div><b></b><div class="deg"></div><p></p>';
+    const av=d.querySelector('.av');if(a.photo){const i=new Image();i.src=a.photo;i.alt=a.name;av.appendChild(i);}else av.textContent=a.name.slice(0,1);
+    d.querySelector('b').textContent=a.name;d.querySelector('.deg').textContent=a.degree||'';d.querySelector('p').textContent=[a.thesis,a.now].filter(Boolean).join(' · ');al.appendChild(d);});
+  const gl=document.getElementById('glist'),gf=document.getElementById('gf'),lb=document.getElementById('lb');
+  const ico='<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-8 8"/></svg>';
+  function draw(cat){gl.innerHTML='';
+    if(!PHOTOS.length){['학회 발표','연구실 행사','실험 현장','졸업식','국제 교류','수상'].forEach((t,i)=>{const d=document.createElement('div');d.className='gi ph'+(i===0?' big':'');d.innerHTML=ico+t+'<br>사진 준비 중';gl.appendChild(d);});return;}
+    PHOTOS.filter(p=>cat==='전체'||p.cat===cat).forEach(p=>{const d=document.createElement('figure');d.className='gi'+(p.big?' big':'');d.style.margin=0;
+      const i=new Image();i.src=p.src;i.alt=p.cap||'';i.loading='lazy';d.appendChild(i);const c=document.createElement('span');c.textContent=p.cap||'';d.appendChild(c);
+      d.onclick=()=>{lb.querySelector('img').src=p.src;lb.querySelector('p').textContent=p.cap||'';lb.hidden=false;};gl.appendChild(d);});}
+  const cats=['전체',...new Set(PHOTOS.map(p=>p.cat).filter(Boolean))];
+  if(cats.length>1)cats.forEach((c,i)=>{const b=document.createElement('button');b.textContent=c;b.setAttribute('aria-pressed',i===0);b.onclick=()=>{gf.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));draw(c);};gf.appendChild(b);});
+  draw('전체');
+  lb.onclick=e=>{if(e.target!==lb.querySelector('img'))lb.hidden=true;};
+  addEventListener('keydown',e=>{if(e.key==='Escape')lb.hidden=true;});
+})();
+
+/* research figure lightbox */
+document.querySelectorAll('.rfig .imgbox').forEach(b=>b.onclick=()=>{const lb=document.getElementById('lb'),im=b.querySelector('img');lb.querySelector('img').src=im.src;lb.querySelector('p').innerHTML=b.parentElement.querySelector('figcaption').innerHTML;lb.hidden=false;});
+/* ALD 원자층 애니메이션 */
+(function(){
+  const c=document.getElementById('atoms'),x=c.getContext('2d');let W,H,atoms=[],rows=[],drops=[];
+  function size(){const dpr=Math.min(devicePixelRatio||1,2);W=c.clientWidth;H=c.clientHeight;c.width=W*dpr;c.height=H*dpr;x.setTransform(dpr,0,0,dpr,0,0);
+    atoms=[];rows=[];const gap=W<700?34:42;
+    for(let r=0;r<5;r++){const y=H*0.66+r*gap*0.6;rows.push(y);for(let i=-1;i<W/gap+1;i++)atoms.push({x:i*gap+(r%2?gap/2:0),y,r,ph:Math.random()*6.28});}}
+  function draw(t){x.clearRect(0,0,W,H);const s=t/1000;
+    x.strokeStyle='rgba(43,179,201,0.10)';x.lineWidth=1;
+    for(const y of rows){x.beginPath();x.moveTo(0,y);x.lineTo(W,y);x.stroke();}
+    for(const a of atoms){const f=1-a.r*0.17,px=a.x+Math.sin(s*0.3+a.r)*6,py=a.y+Math.sin(s*0.8+a.ph)*2.2;
+      const g=x.createRadialGradient(px,py,0,px,py,7);g.addColorStop(0,`rgba(140,230,245,${0.55*f})`);g.addColorStop(1,'rgba(43,179,201,0)');
+      x.fillStyle=g;x.beginPath();x.arc(px,py,7,0,6.283);x.fill();
+      x.fillStyle=`rgba(210,248,255,${0.75*f})`;x.beginPath();x.arc(px,py,1.7,0,6.283);x.fill();}
+    for(const d of drops){d.y+=d.v;x.strokeStyle=`hsla(${d.h},85%,65%,.2)`;x.beginPath();x.moveTo(d.x,d.y-18);x.lineTo(d.x,d.y);x.stroke();
+      x.fillStyle=`hsla(${d.h},85%,66%,.9)`;x.shadowColor=`hsl(${d.h},90%,60%)`;x.shadowBlur=10;x.beginPath();x.arc(d.x,d.y,2.2,0,6.283);x.fill();x.shadowBlur=0;}
+    drops=drops.filter(d=>d.y<rows[0]);
+    if(Math.random()<0.06)drops.push({x:W*(0.3+Math.random()*0.7),y:-10,v:0.6+Math.random()*1.1,h:Math.random()<.5?190:330});
+    if(!reduce)requestAnimationFrame(draw);}
+  size();addEventListener('resize',size);requestAnimationFrame(draw);
+})();
+</script>
+</body>
+</html>
