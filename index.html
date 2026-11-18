@@ -707,7 +707,7 @@ if(!reduce)document.querySelectorAll('.stats b[data-n]').forEach(b=>{const n=+b.
    {name:"홍길동", degree:"M.S. 2027", thesis:"학위논문 제목", now:"현재 진로", photo:"assets/alumni/hong.jpg"} */
 const ALUMNI=[];
 /* ===== 사진첩: {src:"assets/gallery/파일.jpg", cap:"설명", cat:"학회|연구실|행사", big:true} ===== */
-const PHOTOS=[];
+const PHOTOS=[{"src": "assets/gallery/conference-ismp2026.jpg", "cap": "ISMP 2026 · 포스터 발표", "cat": "학회", "big": true}];
 (function(){
   const al=document.getElementById('alist');
   if(!ALUMNI.length){al.innerHTML=Array.from({length:4},()=>'<div class="acard ph"><div class="av">?</div><b>졸업생 준비 중</b><div class="deg">Degree · Year</div><p>학위논문 · 현재 진로</p></div>').join('');}
