@@ -319,12 +319,30 @@ footer .eyebrow{color:var(--cyan)}
   ol.pubs li{padding-left:40px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+
+/* ISM identity: original symbol with live, legible lettering */
+.brand{background:none;border-radius:0;padding:0;gap:11px;text-decoration:none;color:#fff}
+.brand-symbol{display:block;flex:none;width:48px;height:48px;overflow:hidden;background:#fff;border-radius:11px;box-shadow:0 4px 18px #0002}
+.brand .brand-symbol img,.hero-identity .brand-symbol img{display:block;height:100%;width:auto;max-width:none}
+.brand-title{font-size:27px;font-weight:800;line-height:1.1;letter-spacing:-.035em;white-space:nowrap}
+.brand-title small{display:block;font-size:9px;letter-spacing:.16em;color:#b8d5d9;font-weight:600;margin-top:5px}
+header.nav ul{gap:17px}
+.hero-identity{display:flex;align-items:center;gap:26px;margin:0 0 34px;max-width:100%}
+.hero-identity .brand-symbol{width:124px;height:124px;border-radius:24px;box-shadow:0 12px 36px #0003}
+.hero-identity-copy{min-width:0;border-left:1px solid #ffffff40;padding-left:26px}
+.hero-lab-name{font-size:clamp(48px,6.8vw,82px);font-weight:850;letter-spacing:-.055em;line-height:1.02;color:#fff}
+.hero-lab-name span{color:#78dce8}
+.hero-lab-full{font-size:clamp(13px,1.6vw,19px);line-height:1.45;letter-spacing:.035em;color:#d9e8eb;margin-top:12px;font-weight:500}
+.hero .grid{padding-top:150px;padding-bottom:180px}
+@media(max-width:980px){header.nav .in{flex-wrap:wrap;gap:9px 16px;padding-top:9px;padding-bottom:9px}.brand{margin-right:auto}header.nav ul{order:3;flex-basis:100%;margin:0;gap:21px;padding:3px 0 2px}.lang{margin-left:auto}.hero .grid{padding-top:180px}.hero-identity .brand-symbol{width:100px;height:100px}.hero-identity{gap:20px}.hero-identity-copy{padding-left:20px}html{scroll-padding-top:112px}}
+@media(max-width:640px){.brand-symbol{width:39px;height:39px;border-radius:9px}.brand-title{font-size:24px}.brand-title small{font-size:8px}.hero-identity{gap:15px;margin-bottom:26px}.hero-identity .brand-symbol{width:80px;height:80px;border-radius:17px}.hero-identity-copy{padding-left:15px}.hero-lab-name{font-size:clamp(35px,8.5vw,52px)}.hero-lab-full{font-size:11px;letter-spacing:.015em;margin-top:8px}.hero .grid{padding-top:160px;padding-bottom:200px}header.nav ul{gap:19px;font-size:12px}}
+
 </style>
 </head>
 <body>
 
 <header class="nav" id="nav"><div class="in">
-  <a class="brand" href="#home" aria-label="ISM Lab home"><img src="assets/ism-logo.png" alt="Intelligent Semiconductor Materials LAB"></a>
+  <a class="brand" href="#home" aria-label="ISM Lab — Intelligent Semiconductor Materials Lab"><span class="brand-symbol" aria-hidden="true"><img src="assets/ism-logo.png" alt=""></span><span class="brand-title">ISM Lab<small>SEMICONDUCTOR MATERIALS</small></span></a>
   <ul>
     <li><a href="#research">Research</a></li>
     <li><a href="#facility">Facility</a></li>
@@ -345,7 +363,7 @@ footer .eyebrow{color:var(--cyan)}
   <canvas id="atoms" aria-hidden="true"></canvas>
   <div class="wrap grid">
     <div>
-      <div class="kick">INTELLIGENT SEMICONDUCTOR MATERIALS LAB</div>
+      <div class="hero-identity" aria-label="ISM Lab — Intelligent Semiconductor Materials Lab"><span class="brand-symbol" aria-hidden="true"><img src="assets/ism-logo.png" alt=""></span><div class="hero-identity-copy"><div class="hero-lab-name">ISM <span>Lab</span></div><p class="hero-lab-full">Intelligent Semiconductor<br>Materials Lab</p></div></div>
       <div class="headline">
         <h1>One atomic layer <span class="grad">beyond the limits</span></h1>
         <div class="who"><p class="name">Prof. Seung-min Chung<small>Ph.D.</small></p>
