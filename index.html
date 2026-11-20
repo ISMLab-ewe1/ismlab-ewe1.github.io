@@ -344,6 +344,13 @@ header.nav ul{gap:17px}
 
 .brand-symbol,.hero-identity .brand-symbol{mix-blend-mode:normal;background:none;border-radius:0;box-shadow:none}.brand .brand-symbol img,.hero-identity .brand-symbol img{filter:none;width:100%;height:100%}
 .brand-title .brand-lab{color:#78dce8}
+/* hero layout 2026-11-20: English headline, higher, left-start */
+.hero{align-items:flex-start}
+.hero .grid{padding-top:clamp(120px,17vh,190px);padding-bottom:190px}
+.hero .wrap.grid,header.nav .in{max-width:none;margin-left:clamp(0px,5vw,120px);margin-right:0}
+.hero h1[lang=en],html[lang=en] .hero h1{font-size:clamp(24px,4.2vw,56px)}
+@media(max-width:980px){.hero .grid{padding-top:150px}}
+@media(max-width:640px){.hero .wrap.grid,header.nav .in{margin-left:0}.hero h1[lang=en],html[lang=en] .hero h1{font-size:5.6vw;letter-spacing:-.03em}.hero .grid{padding-top:140px}}
 </style>
 </head>
 <body>
@@ -371,7 +378,7 @@ header.nav ul{gap:17px}
   <div class="wrap grid">
     <div>
       <div class="headline">
-        <h1>원자 한 층으로 <span class="grad">반도체의 한계를 넘다</span></h1>
+        <h1 lang="en">One atomic layer <span class="grad">beyond the limits</span></h1>
         <div class="who"><p class="name">정승민 교수<small>Seung-min Chung, Ph.D.</small></p>
         <p class="aff">호서대학교 AI공과대학 반도체공학과 부교수</p></div>
       </div>
